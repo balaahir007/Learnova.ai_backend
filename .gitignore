@@ -1,0 +1,26 @@
+node_modules/
+.wwebjs_auth/
+.wwebjs_cache/
+
+# environment variables
+.env
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs
+*.log
+
+# runtime data
+pids
+*.pid
+*.seed
+
+# system files
+.DS_Store
+.vscode/
+.idea/
+
+# build artifacts
+/dist
