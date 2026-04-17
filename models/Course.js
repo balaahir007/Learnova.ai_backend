@@ -115,9 +115,6 @@ export const Course = sequelize.define(
         fields: ["userId"],
       },
       {
-        fields: ["categoryId"],
-      },
-      {
         fields: ["isPublished"],
       },
     ],
@@ -451,7 +448,7 @@ UserProgress.belongsTo(Attachments, {
   as: "attachment",
 });
 
-Category.hasMany(Course, { foreignKey: "categoryId", as: "courses" });
+// Removed Category.hasMany(Course) - now using simple category STRING field
 Attachments.belongsTo(Course, { foreignKey: "courseId", as: "course" });
 
 User.hasMany(Course, { foreignKey: "userId", as: "courses" });
