@@ -17,7 +17,7 @@ const Hackathon = sequelize.define('Hackathon', {
   },
   logo: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   slug: {
     type: DataTypes.STRING,
