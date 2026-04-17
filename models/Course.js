@@ -93,12 +93,9 @@ export const Course = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    categoryId: {
-      type: DataTypes.UUID,
-      references: {
-        model: "categories",
-        key: "id",
-      },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     certificateThreshold: {
       type: DataTypes.FLOAT,
