@@ -5,24 +5,24 @@ const StudySpace = sequelize.define(
   "studySpaces",
   {
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       primaryKey: true,
       allowNull: false,
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(500),
       allowNull: false,
     },
     domain: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1000),
       allowNull: false,
     },
     goal: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     techSkills: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1000),
       allowNull: false,
     },
     tags: {
@@ -30,7 +30,7 @@ const StudySpace = sequelize.define(
       defaultValue: [],
     },
     logo: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(500),
       allowNull: true,
     },
     members: {
@@ -42,7 +42,7 @@ const StudySpace = sequelize.define(
       defaultValue: "private",
     },
     inviteCode: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(500),
       allowNull: true,
       unique: true,
     },

@@ -2,23 +2,42 @@ import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 dotenv.config();
 
-const isRender = !!process.env.RENDER_DATABASE_URL;
+const isProduction = !!process.env.PRODUCTION_DATABASE_URL;
 
-const sequelize = new Sequelize(
-  isRender ? process.env.RENDER_DATABASE_URL : process.env.LOCAL_DATABASE_URL,
-  {
-    dialect: "postgres",
-    logging: false,
-    dialectOptions: isRender
-      ? {
-          ssl: {
-            require: true,
-            rejectUnauthorized: false,
-          },
-        }
-      : {}, // EMPTY for localhost, not false
-  }
+const databaseUrl = isProduction 
+  ? process.env.PRODUCTION_DATABASE_URL 
+  : process.env.LOCAL_DATABASE_URL;
+
+if (!databaseUrl) {
+  console.error("❌ FATAL: No database URL found!");
+  console.error("   PRODUCTION_DATABASE_URL:", process.env.PRODUCTION_DATABASE_URL ? "✓" : "✗");
+  console.error("   LOCAL_DATABASE_URL:", process.env.LOCAL_DATABASE_URL ? "✓" : "✗");
+  process.exit(1);
+}
+
+console.log(
+  "Connecting to PostgreSQL...",
+  isProduction ? "Using PRODUCTION_DATABASE_URL" : "Using LOCAL_DATABASE_URL"
 );
+
+const sequelize = new Sequelize(databaseUrl, {
+  dialect: "postgres",
+  logging: false,
+  pool: {
+    max: 10,
+    min: 2,
+    acquire: 30000,
+    idle: 10000,
+  },
+  dialectOptions: isProduction
+    ? {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      }
+    : {},
+});
 
  const connectDB = async () => {
   try {
