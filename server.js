@@ -33,7 +33,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://morrowgen.onrender.com","https://learnova-ai-i9hw.onrender.com"],
+    origin: ["http://localhost:5173", "https://morrowgen.onrender.com","https://learnova-ai-i9hw.onrender.com", "https://learnova-ai-backend.onrender.com"],
     credentials: true,
   })
 );
