@@ -136,21 +136,31 @@ export const getAllJobs = async (req, res) => {
     });
   }
   try {
-    const jobs = await sequelize.query(
-      'SELECT * FROM public."jobs" ORDER BY id ASC',
+    // Try both table names - check which one exists
+    let jobs = await sequelize.query(
+      'SELECT * FROM public."Jobs" ORDER BY id DESC LIMIT 100',
       { type: sequelize.QueryTypes.SELECT }
     );
-    console.log(jobs);
+    
+    // If no results, try lowercase
+    if (!jobs || jobs.length === 0) {
+      console.log("No jobs found in Jobs table, trying lowercase jobs table");
+      jobs = await sequelize.query(
+        'SELECT * FROM public."jobs" ORDER BY id DESC LIMIT 100',
+        { type: sequelize.QueryTypes.SELECT }
+      );
+    }
+    
+    console.log("Jobs count:", jobs?.length || 0);
+    console.log("Sample job:", jobs?.[0] || "No jobs found");
 
-    // const jobs = await Job.findAll({
-    //   include: includeArr,
-    // });
-
-    // console.log("jobs fetched :", jobs.length);
-    // console.log("job Data : ", jobs);
-
-    res.status(200).json(jobs);
+    res.status(200).json({
+      success: true,
+      count: jobs?.length || 0,
+      data: jobs || []
+    });
   } catch (err) {
+    console.error("Error fetching jobs:", err.message);
     res.status(500).json({ error: err.message });
   }
 };
