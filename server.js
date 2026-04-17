@@ -78,10 +78,12 @@
   server.listen(PORT, async () => {
     try {
       await connectDB();
-      await sequelize.sync({ alter : true });
+      // Commenting out sequelize.sync for now - it can cause timeouts on Render
+      // await sequelize.sync({ alter : true });
 
       console.log(`✅ Server running on port ${PORT}`);
     } catch (error) {
       console.error("❌ Error starting server:", error.message);
+      process.exit(1);
     }
   });
