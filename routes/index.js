@@ -17,10 +17,10 @@ import savedItemRoutes from "./savedItemRoutes.js";
 
 const router = express.Router();
 
-// Health check endpoint
+// Health check endpoint (MUST be first)
 router.get("/health", async (req, res) => {
   try {
-    const isConnected = await sequelize.authenticate();
+    await sequelize.authenticate();
     const tables = await sequelize.query(
       `SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'`,
       { type: sequelize.QueryTypes.SELECT }
@@ -28,18 +28,20 @@ router.get("/health", async (req, res) => {
     
     res.status(200).json({
       status: "✅ Backend is running",
-      database: "Connected",
+      database: "✅ Connected",
       tables: tables.map(t => t.table_name),
       timestamp: new Date().toISOString()
     });
   } catch (err) {
     res.status(500).json({
-      status: "❌ Error",
-      message: err.message
+      status: "❌ Database Error",
+      message: err.message,
+      timestamp: new Date().toISOString()
     });
   }
 });
 
+// All other routes
 router.use("/study-space", studySpaceRoutes);
 router.use("/auth", authRoutes);
 router.use("/interview", interviewRoutes);
