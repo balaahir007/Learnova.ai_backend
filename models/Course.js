@@ -432,7 +432,7 @@ Course.hasMany(Certificate, { foreignKey: "courseId", as: "certificates" });
 
 // Define associations
 Course.belongsTo(User, { foreignKey: "userId", as: "user" });
-Course.belongsTo(Category, { foreignKey: "categoryId", as: "category" });
+// Removed: Category association - now using simple category STRING field
 Course.hasMany(Attachments, {
   foreignKey: "courseId",
   as: "attachments",
